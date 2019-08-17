@@ -24,7 +24,7 @@ function createRoutine() {
     const route = {
         name: document.getElementById('name').value
     }
-
+    debugger; 
     fetch(BASE_URL + '/users/' + user_id + '/routines', {
         method: 'post',
         body: JSON.stringify({route}),
