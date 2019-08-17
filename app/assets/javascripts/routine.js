@@ -20,14 +20,14 @@ function displayCreateForm() {
 }
 
 function createRoutine() {
-    debugger; 
     let user_id = document.getElementsByClassName('navbar-brand')[1].href.slice(-1)
     let name = document.getElementById('name').value
-    // fetch(BASE_URL + '/users/' + user_id + '/routines/new', {
-    //     method: 'POST'
-    // })
-    // .then(resp => resp.json())
 
+    fetch(BASE_URL + '/users/' + user_id + '/routines', {
+        method: 'POST'
+    })
+    .then(resp => resp.json())
+    debugger;
 }
 
 function getRoutines() {

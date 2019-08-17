@@ -12,9 +12,11 @@ class RoutinesController < ApplicationController
     end 
 
     def create
+        binding.pry
         @routine = current_user.routines.create(routine_params)
         if @routine.valid?
-            redirect_to user_path(current_user)    
+            #redirect_to user_path(current_user)    
+            render json: @routine, status: 201
         else
             render 'new'
         end
@@ -27,7 +29,7 @@ class RoutinesController < ApplicationController
         else 
             authorize @routine
             #binding.pry
-            #render json: @routine, status:200
+            render json: @routine, status:200
             # respond_to do |format|
             #     format.html { render :show }
             #     format.json { render json: @routine}
