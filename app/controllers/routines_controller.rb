@@ -14,12 +14,12 @@ class RoutinesController < ApplicationController
     def create
         binding.pry
         @routine = current_user.routines.create(routine_params)
-        if @routine.valid?
+        #if @routine.valid?
             #redirect_to user_path(current_user)    
             render json: @routine, status: 201
-        else
-            render 'new'
-        end
+        #else
+        #    render 'new'
+        #end
     end
 
     def show

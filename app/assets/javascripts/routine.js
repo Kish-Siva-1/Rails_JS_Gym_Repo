@@ -21,13 +21,22 @@ function displayCreateForm() {
 
 function createRoutine() {
     let user_id = document.getElementsByClassName('navbar-brand')[1].href.slice(-1)
-    let name = document.getElementById('name').value
+    const route = {
+        name: document.getElementById('name').value
+    }
 
     fetch(BASE_URL + '/users/' + user_id + '/routines', {
-        method: 'POST'
+        method: 'post',
+        body: JSON.stringify({route}),
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json' 
+        }
     })
     .then(resp => resp.json())
+    .then(data => console.log(data))
     debugger;
+    
 }
 
 function getRoutines() {
