@@ -46,7 +46,7 @@ ActiveRecord::Schema.define(version: 2019_07_23_222409) do
   create_table "weights", force: :cascade do |t|
     t.integer "routine_id"
     t.integer "machine_id"
-    t.integer "weight"
+    t.string "weight"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["machine_id"], name: "index_weights_on_machine_id"

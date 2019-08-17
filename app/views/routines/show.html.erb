@@ -15,6 +15,7 @@
     <% @routine.weights.each do |x| %>
 
         <%if !x.machine.nil? %>
+
             <h3><%= link_to x.machine.name, edit_routine_machine_path(@routine, x.machine) %></h3>
             Weight Lifted: <%= x.weight %> kg<br>
             Sets: <%= x.machine.sets %><br>

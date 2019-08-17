@@ -2,31 +2,40 @@ class RoutinesController < ApplicationController
     before_action :require_login
     before_action :authenticate_user!
 
+    def index
+        routines = current_user.routines
+        render json: routines
+    end
+
     def new
-            @routine = Routine.new
+        @routine = Routine.new
     end 
 
     def create
-            @routine = current_user.routines.create(routine_params)
-            if @routine.valid?
-                redirect_to user_path(current_user)    
-            else
-                render 'new'
-            end
-    end
-
-    def index
-           @routines = current_user.routines
+        @routine = current_user.routines.create(routine_params)
+        if @routine.valid?
+            redirect_to user_path(current_user)    
+        else
+            render 'new'
+        end
     end
 
     def show
-            @routine = Routine.find_by(params.permit(:id))
-            if @routine.nil?
-                redirect_to user_path(current_user)
-            else 
-                authorize @routine
-            end
-    end
+        @routine = Routine.find_by(params.permit(:id))
+        if @routine.nil?
+            redirect_to user_path(current_user)
+        else 
+            authorize @routine
+            #binding.pry
+            #render json: @routine, status:200
+            # respond_to do |format|
+            #     format.html { render :show }
+            #     format.json { render json: @routine}
+            #   end
+            #render json: @routine 
+        end
+        
+    end 
 
     def edit
            @routine = Routine.find_by(params.permit(:id))  
@@ -48,12 +57,12 @@ class RoutinesController < ApplicationController
     end
 
     def destroy
-            @routine = Routine.find_by(params.permit(:id))
-            authorize @routine
-            if !@routine.nil? 
-                @routine.destroy                
-            end
-            redirect_to user_path(current_user)
+        @routine = Routine.find_by(params.permit(:id))
+        authorize @routine
+        if !@routine.nil? 
+            @routine.destroy                
+        end
+        redirect_to user_path(current_user)
     end
 
     private 
@@ -64,7 +73,7 @@ class RoutinesController < ApplicationController
   
     def require_login
         if current_user.nil? 
-        redirect_to '/login'
+            redirect_to '/login'
         end
     end
 

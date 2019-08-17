@@ -3,62 +3,59 @@ class MachinesController < ApplicationController
     before_action :authenticate_user!
 
     def new
-            @routine = Routine.find_by(id: params.permit(:routine_id).values[0])
-            authorize @routine
-            if !@routine.nil?
-                @weight = @routine.weights.build
-                @machine = @weight.build_machine
-            else 
-                redirect_to user_routine_path(current_user, @routine)
-            end   
+        @routine = Routine.find_by(id: params.permit(:routine_id).values[0])
+        authorize @routine
+        if !@routine.nil?
+            @weight = @routine.weights.build
+            @machine = @weight.build_machine
+        else 
+            redirect_to user_routine_path(current_user, @routine)
+        end   
     end 
 
     def create 
-
-            @machine = Machine.create(machine_params) 
-        
-            if @machine.valid?  
-                authorize @machine
-                @routine = @machine.weights.last.routine
-                redirect_to user_routine_path(current_user, @routine)    
-            else
-                @routine = Routine.find_by(id: params.permit(:routine_id).values[0]) 
-                render 'new'
-            end
-            
+        @machine = Machine.create(machine_params) 
+        if @machine.valid?  
+            authorize @machine
+            @routine = @machine.weights.last.routine
+            redirect_to user_routine_path(current_user, @routine)    
+        else
+            @routine = Routine.find_by(id: params.permit(:routine_id).values[0]) 
+            render 'new'
+        end
     end
     
     def edit
-            @machine = Machine.find_by(params[:id])
-            if !@machine.nil?
-                authorize @machine
-                @routine = @machine.weights.last.routine
-            else
-                redirect_to root_path 
-            end
+        @machine = Machine.find_by(params[:id])
+        if !@machine.nil?
+            authorize @machine
+            @routine = @machine.weights.last.routine
+        else
+            redirect_to root_path 
+        end
     end
 
     def update
-            @machine = Machine.find(params[:id])
-            authorize @machine 
-            @machine.update(machine_params)
-            if @machine.valid? && !@machine.nil?
-                @routine = @machine.weights.last.routine
-                redirect_to user_routine_path(current_user, @routine)    
-            else
-                @routine = Routine.find_by(id: params.permit(:routine_id).values[0]) 
-                render 'new'
-            end
+        @machine = Machine.find(params[:id])
+        authorize @machine 
+        @machine.update(machine_params)
+        if @machine.valid? && !@machine.nil?
+            @routine = @machine.weights.last.routine
+            redirect_to user_routine_path(current_user, @routine)    
+        else
+            @routine = Routine.find_by(id: params.permit(:routine_id).values[0]) 
+            render 'new'
+        end
     end
 
     def destroy
-            @routine = Machine.find_by(params[:id]).weights.last.routine
-            @machine = Machine.find_by(params[:id])
-            authorize @routine
-            if !@machine.nil?
-                @machine.destroy
-            end 
-            redirect_to user_routine_path(current_user, @routine)
+        @routine = Machine.find_by(params[:id]).weights.last.routine
+        @machine = Machine.find_by(params[:id])
+        authorize @routine
+        if !@machine.nil?
+            @machine.destroy
+        end 
+        redirect_to user_routine_path(current_user, @routine)
     end
 
     private
