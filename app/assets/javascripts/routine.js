@@ -1,34 +1,50 @@
 const BASE_URL = 'http://localhost:3002'
 
+function displayCreateForm() {
+
+    let routinesFormDiv = document.querySelector('button[onclick="displayCreateForm()"]');
+    let cform = document.createElement("div");
+    let html = `
+        <br>
+        <form onsubmit="createRoutine(); return false;">
+        <label>Name:</label>
+        <input type="text" id="name">
+        <br>
+        <input type="submit" value="Submit">
+        </form>
+    `
+    
+    cform.innerHTML = html;
+    routinesFormDiv.after(cform)
+
+}
+
+function createRoutine() {
+    debugger; 
+    let user_id = document.getElementsByClassName('navbar-brand')[1].href.slice(-1)
+    let name = document.getElementById('name').value
+    // fetch(BASE_URL + '/users/' + user_id + '/routines/new', {
+    //     method: 'POST'
+    // })
+    // .then(resp => resp.json())
+
+}
+
 function getRoutines() {
 
     let user_id = document.getElementsByClassName('navbar-brand')[1].href.slice(-1)
     let main = document.createElement("div");
-    let store ={};
+    let store = {};
 
     fetch(BASE_URL + '/users/' + user_id + '/routines') 
         .then( resp => resp.json() )
         .then( data => {
 
         //creates html for routine show page links
-            store["rendinfo"] = data.map(data => {
+        store["rendinfo"] = data.map(data => {
             const rt = new Routine(data)
             return rt.renderRout()
         }) 
-        
-        //create another map function for all of the delete innerhtml 
-    
-        store["hyplink"] = data.map(data => {
-            const rt = new Routine(data)
-            return rt.renderhref()
-        }) 
-        
-        //create another map function for all the innerText
-
-        store["del"] = data.map(data => {
-            const rt = new Routine(data)
-            return rt.renderDel()
-        })
 
         document.body.appendChild(main).style.padding = "15px"
         
@@ -37,31 +53,8 @@ function getRoutines() {
         });
 
     })
-}
-
-function displayRoutine(e) {
-    e.preventDefault();
-    //clearForm(); 
-    debugger;
-    let id = this.dataset.id; 
-    let user_id = this.dataset.user_id; 
-    let main = document.getElementById('main');
-    main.innerHTML = '';
-
-    fetch(BASE_URL + '/users/' + user_id  + '/routines/' + id) 
-        .then ( resp => resp.json() )    
 
 }
-    
-        // .then(resp => resp.json())
-        // .then(routine => {
-        //     main.innerHTML += `<h2>${routine.name}</h2>`;
-        //     main.innerHTML += `<h3>${routine.name}</h2>`;
-        // })
-    
-
-//}
-
 
 function clearForm() {
 
@@ -95,7 +88,6 @@ class Routine {
     renderDel() {
         return `<a href=”#” data-id=”${this.id}”>Delete Routine</a>`
     }
-
 }
 
 function attachClickToMachLinks() {
