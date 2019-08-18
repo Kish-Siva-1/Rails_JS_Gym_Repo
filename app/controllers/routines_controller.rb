@@ -8,6 +8,7 @@ class RoutinesController < ApplicationController
     end
 
     def new
+        binding.pry
         @routine = Routine.new
     end 
 
@@ -16,7 +17,7 @@ class RoutinesController < ApplicationController
         @routine = current_user.routines.create(routine_params)
         #if @routine.valid?
             #redirect_to user_path(current_user)    
-            render json: @routine, status: 201
+        render json: @routine, status: 201
         #else
         #    render 'new'
         #end

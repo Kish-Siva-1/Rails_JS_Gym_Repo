@@ -6,13 +6,25 @@ function displayCreateForm() {
     let cform = document.createElement("div");
     let html = `
         <br>
-        <form onsubmit="createRoutine(); return false;">
+        <form onsubmit="createRoutine(); return false">
         <label>Name:</label>
         <input type="text" id="name">
         <br>
         <input type="submit" value="Submit">
         </form>
     `
+    // <%= form_for @routine do |f| %>
+
+    //         Add a New Routine
+
+    //         <br>
+    //         <br>
+    //         <div class="text">
+    //         Name: <%= f.text_field :name %><br>
+    //         </div>
+    //         <br>  
+    //         <%= f.submit %>
+    //         <% end %></br>
     
     cform.innerHTML = html;
     routinesFormDiv.after(cform)
@@ -24,19 +36,20 @@ function createRoutine() {
     const route = {
         name: document.getElementById('name').value
     }
-    debugger; 
+    debugger;
     fetch(BASE_URL + '/users/' + user_id + '/routines', {
-        method: 'post',
-        body: JSON.stringify({route}),
+        method: 'POST',
+        body: JSON.stringify(route),
         headers: {
             'Content-Type': 'application/json',
-            'Accept': 'application/json' 
-        }
+            'Accept': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest',
+            //'X-CSRF-Token': token
+        },
+        credentials: 'same-origin'
     })
     .then(resp => resp.json())
-    .then(data => console.log(data))
-    debugger;
-    
+    //.then(data => {console.log(data)})    
 }
 
 function getRoutines() {
@@ -62,7 +75,6 @@ function getRoutines() {
         });
 
     })
-
 }
 
 function clearForm() {
@@ -86,16 +98,16 @@ class Routine {
     }
 
     renderhref() {
-        return `<a href=”#” data-id=”${this.id}”>${this.name}</a>`
+        return `<a href=”#routine${this.id}” class="routine${this.id}" data-id=”${this.id}” onclick="getMachines(${this.id});return false;">${this.name}</a>`
     }
 
     renderRout() {
         return `<p>Routine Name: ${this.renderhref()} 
-        <br> (${this.renderDel()}) </p>`        
+        <br> ${this.renderDel()} </p>`        
     }
     
     renderDel() {
-        return `<a href=”#” data-id=”${this.id}”>Delete Routine</a>`
+        return `<a href=”#” data-id=”${this.id}” class="delete${this.id}">Delete Routine</a>`
     }
 }
 
