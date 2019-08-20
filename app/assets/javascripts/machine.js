@@ -25,14 +25,13 @@ function displayMachCreateForm(info) {
 
 function createMachRoutine(info) {
     
-    
     const machine = {
         name: document.getElementById('mach_name').value,
         repetitions: document.getElementById('repetitions').value,
         sets: document.getElementById('sets').value
     }
     
-    fetch(BASE_URL + '/routines/' + info, {
+    fetch(BASE_URL + '/routines/' + info + '/machines', {
         method: 'POST',
         body: JSON.stringify(machine),
         headers: {
@@ -43,7 +42,11 @@ function createMachRoutine(info) {
         credentials: 'same-origin'
     })
     .then(resp => resp.json())
-     
+    
+    debugger; 
+    
+    getMachines(info)
+
 }
 
 function getMachines(info) {
@@ -54,11 +57,11 @@ function getMachines(info) {
     let store = {};
 
     let html = `<br>`
-
+    debugger; 
     fetch(BASE_URL + '/users/' + user_id + '/routines/' + info) 
         .then( resp => resp.json() )
         .then( data => {
-
+            debugger; 
         if (data.machines.length === 0)
            { 
                 seemachine.after(main)

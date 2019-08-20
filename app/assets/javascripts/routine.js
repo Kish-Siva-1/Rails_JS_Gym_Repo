@@ -44,7 +44,6 @@ function clearForm(){
 
 }
 
-
 function getRoutines() {
 
     let user_id = document.getElementsByClassName('navbar-brand')[1].href.slice(-1)
