@@ -15,11 +15,14 @@ class MachinesController < ApplicationController
     end 
 
     def create 
+        @routine = Routine.find_by(id: params.permit(:routine_id).values[0])
+        @weight = @routine.weights.build
+        @machine = @weight.build_machine
+        
         @machine = Machine.create(machine_params) 
         if @machine.valid?  
             authorize @machine
             @routine = @machine.weights.last.routine
-            binding.pry
             render json: @machine, status: 201
         else
             @routine = Routine.find_by(id: params.permit(:routine_id).values[0]) 

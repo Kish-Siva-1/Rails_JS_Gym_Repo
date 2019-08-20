@@ -14,6 +14,9 @@ function displayMachCreateForm(info) {
         <label>Sets:</label>
         <input type="text" id="sets">
         <br>
+        <label>Weight:</label>
+        <input type="text" id="weights">
+        <br>
         <input type="submit" value="Submit">
         </form>
     `
@@ -24,16 +27,23 @@ function displayMachCreateForm(info) {
 }
 
 function createMachRoutine(info) {
-    
-    const machine = {
+     
+    let mach_info = {};
+
+    mach_info["machine"] = {
         name: document.getElementById('mach_name').value,
         repetitions: document.getElementById('repetitions').value,
         sets: document.getElementById('sets').value
+        ,weights_attributes: {0: {weight: document.getElementById('weights').value, 
+                                 routine_id: String(info),
+                                 machine_id: ''
+     }}
+        
     }
-    
+
     fetch(BASE_URL + '/routines/' + info + '/machines', {
         method: 'POST',
-        body: JSON.stringify(machine),
+        body: JSON.stringify(mach_info),
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
@@ -42,9 +52,7 @@ function createMachRoutine(info) {
         credentials: 'same-origin'
     })
     .then(resp => resp.json())
-    
-    debugger; 
-    
+
     getMachines(info)
 
 }
@@ -57,11 +65,11 @@ function getMachines(info) {
     let store = {};
 
     let html = `<br>`
-    debugger; 
+    
     fetch(BASE_URL + '/users/' + user_id + '/routines/' + info) 
         .then( resp => resp.json() )
         .then( data => {
-            debugger; 
+            
         if (data.machines.length === 0)
            { 
                 seemachine.after(main)
@@ -71,14 +79,14 @@ function getMachines(info) {
         else 
         
         {  
-
             //creates html for routine show page links
-            const mch = new Machine(data)
-            store["rendinfo"] = mch.renderMch()
+            store["rendinfo"] = data.machines.map(rand => {
+                const mch = new Machine(rand, info)
+                return mch.renderMch()  
+            }) 
 
             seemachine.after(main)
-            main.innerHTML = html + store["rendinfo"] 
-                    
+            main.innerHTML = html + store["rendinfo"]       
         }
     
             main.style.paddingLeft = '15px'
@@ -89,17 +97,27 @@ function getMachines(info) {
     
 }
 
+function delMach(machine_id, routine_id) {
+    debugger; 
+
+    fetch(BASE_URL + '/routines/' + routine_id + '/machines/' + machine_id, {
+        method: 'DELETE'
+    })
+    .then(resp => resp.json())
+
+}
+
 class Machine {
-    constructor(mach) {
-        this.id = mach.machines.id
-        this.name = mach.machines.name
-        this.repetitions = mach.machines.repetitions
-        this.sets = mach.machines.sets
-        this.ref = BASE_URL + '/users/' + mach.user_id + '/routines/' + mach.id
+    constructor(mach, routine_id) {
+        this.id = mach.id
+        this.name = mach.name
+        this.repetitions = mach.repetitions
+        this.sets = mach.sets
+        this.routine_id = routine_id
     }
 
     rendermchname() {
-        return `<a href=”#routine${this.id}” class="routine${this.id}" data-id=”${this.id}” onclick="getMachines();return false;">${this.name}</a>`
+        return `<a href=”#routine${this.id}” class="routine${this.id}" data-id=”${this.id}”>${this.name}</a>`
     }
 
     renderMch() {
@@ -107,11 +125,10 @@ class Machine {
         <br>Repetitions: ${this.repetitions}
         <br>Sets: ${this.sets}
         <br> ${this.renderDel()} 
-        <br> 
         </p>`        
     }
     
     renderDel() {
-        return `<a href=”#” data-id=”${this.id}” class="delete${this.id}">Delete Work Out</a>`
+        return `<a href=”#” data-id=”${this.id}” onclick="delMach(${this.id}, ${this.routine_id})" class="deletemach${this.id}">Delete Work Out</a>`
     }
 }

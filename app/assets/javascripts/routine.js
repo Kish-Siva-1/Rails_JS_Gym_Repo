@@ -36,11 +36,21 @@ function createRoutine() {
         credentials: 'same-origin'
     })
     .then(resp => resp.json())
+    
     getRoutines()
 
 }
 
-function clearForm(){
+function delRout(info) {
+
+    let user_id = document.getElementsByClassName('navbar-brand')[1].href.slice(-1)
+
+    fetch(BASE_URL + '/users/' + user_id + '/routines/' + info, {
+        method: 'DELETE'
+    })
+    .then(resp => resp.json())
+
+    getRoutines();
 
 }
 
@@ -89,7 +99,7 @@ class Routine {
     }
     
     renderDel() {
-        return `<a href=”#” data-id=”${this.id}” class="delete${this.id}">Delete Routine</a>`
+        return `<a href=”#” data-id=”${this.id}” onclick="delRout(${this.id});"  class="delRout${this.id}">Delete Routine</a>`
     }
 }
 

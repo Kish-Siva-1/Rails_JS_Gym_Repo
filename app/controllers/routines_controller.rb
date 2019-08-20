@@ -15,7 +15,6 @@ class RoutinesController < ApplicationController
     def create
         @routine = current_user.routines.create(routine_params)
         if @routine.valid?
-            #redirect_to user_path(current_user)   
             render json: @routine, status: 201
         else
             render 'new'
