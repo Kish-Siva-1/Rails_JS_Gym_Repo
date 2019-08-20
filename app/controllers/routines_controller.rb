@@ -1,4 +1,5 @@
 class RoutinesController < ApplicationController
+    skip_before_action :verify_authenticity_token
     before_action :require_login
     before_action :authenticate_user!
 
@@ -8,19 +9,17 @@ class RoutinesController < ApplicationController
     end
 
     def new
-        binding.pry
         @routine = Routine.new
     end 
 
     def create
-        binding.pry
         @routine = current_user.routines.create(routine_params)
-        #if @routine.valid?
-            #redirect_to user_path(current_user)    
-        render json: @routine, status: 201
-        #else
-        #    render 'new'
-        #end
+        if @routine.valid?
+            #redirect_to user_path(current_user)   
+            render json: @routine, status: 201
+        else
+            render 'new'
+        end
     end
 
     def show

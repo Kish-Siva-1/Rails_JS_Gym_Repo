@@ -1,4 +1,5 @@
 class MachinesController < ApplicationController
+    skip_before_action :verify_authenticity_token
     before_action :require_login
     before_action :authenticate_user!
 
@@ -14,6 +15,7 @@ class MachinesController < ApplicationController
     end 
 
     def create 
+        binding.pry
         @machine = Machine.create(machine_params) 
         if @machine.valid?  
             authorize @machine

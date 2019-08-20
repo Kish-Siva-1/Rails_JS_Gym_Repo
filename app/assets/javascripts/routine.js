@@ -13,19 +13,7 @@ function displayCreateForm() {
         <input type="submit" value="Submit">
         </form>
     `
-    // <%= form_for @routine do |f| %>
 
-    //         Add a New Routine
-
-    //         <br>
-    //         <br>
-    //         <div class="text">
-    //         Name: <%= f.text_field :name %><br>
-    //         </div>
-    //         <br>  
-    //         <%= f.submit %>
-    //         <% end %></br>
-    
     cform.innerHTML = html;
     routinesFormDiv.after(cform)
 
@@ -36,7 +24,7 @@ function createRoutine() {
     const route = {
         name: document.getElementById('name').value
     }
-    debugger;
+ 
     fetch(BASE_URL + '/users/' + user_id + '/routines', {
         method: 'POST',
         body: JSON.stringify(route),
@@ -44,17 +32,23 @@ function createRoutine() {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
             'X-Requested-With': 'XMLHttpRequest',
-            //'X-CSRF-Token': token
         },
         credentials: 'same-origin'
     })
     .then(resp => resp.json())
-    //.then(data => {console.log(data)})    
+    getRoutines()
+
 }
+
+function clearForm(){
+
+}
+
 
 function getRoutines() {
 
     let user_id = document.getElementsByClassName('navbar-brand')[1].href.slice(-1)
+    let seeroutines = document.querySelector('button[onclick="getRoutines()"]')
     let main = document.createElement("div");
     let store = {};
 
@@ -68,26 +62,15 @@ function getRoutines() {
             return rt.renderRout()
         }) 
 
-        document.body.appendChild(main).style.padding = "15px"
+        let html = `<br>`
+        seeroutines.after(main)
+        main.innerHTML = html
         
         store["rendinfo"].forEach(function(element) {
             main.innerHTML += element;
         });
 
     })
-}
-
-function clearForm() {
-
-}
-
-
-function completed(mach) {
-
-}
-
-function createMachine() {
-
 }
 
 class Routine {
