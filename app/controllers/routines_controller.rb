@@ -58,10 +58,10 @@ class RoutinesController < ApplicationController
     end
 
     def destroy
-        @routine = Routine.find_by(params.permit(:id))
-        authorize @routine
-        if !@routine.nil? 
-            @routine.destroy                
+        routine = Routine.all.find_by(params.permit(:id))
+        authorize routine
+        if !routine.nil? 
+            routine.destroy                
         end
     end
 

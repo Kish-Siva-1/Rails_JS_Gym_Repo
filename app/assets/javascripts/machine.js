@@ -102,7 +102,8 @@ function delMach(machine_id, routine_id) {
     fetch(BASE_URL + '/routines/' + routine_id + '/machines/' + machine_id, {
         method: 'DELETE'
     })
-    .then(resp => resp.json())
+
+    getMachines(routine_id)
 
 }
 

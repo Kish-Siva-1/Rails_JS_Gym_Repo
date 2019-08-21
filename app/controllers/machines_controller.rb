@@ -54,12 +54,11 @@ class MachinesController < ApplicationController
     end
 
     def destroy
-        @routine = Routine.find_by(params[:routine_id])
-        binding.pry
-        @machine = Machine.find_by(params[:id])
-        authorize @routine
-        if !@machine.nil?
-            @machine.destroy
+        routine = Routine.find_by_id(params[:routine_id])
+        machine = Machine.find_by_id(params[:id])
+        authorize routine
+        if !machine.nil?
+            machine.destroy
         end 
     end
 

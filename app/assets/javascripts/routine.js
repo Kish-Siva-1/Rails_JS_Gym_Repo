@@ -48,9 +48,8 @@ function delRout(info) {
     fetch(BASE_URL + '/users/' + user_id + '/routines/' + info, {
         method: 'DELETE'
     })
-    .then(resp => resp.json())
 
-    getRoutines();
+    getRoutines()
 
 }
 
@@ -103,13 +102,3 @@ class Routine {
     }
 }
 
-function attachClickToMachLinks() {
-    let mach = document.querySelectorAll('li a');
-    for (let i=0; i < mach.length; i++) {
-        mach[i].addEventListener('click', displayRoutine)
-    }
-}
-
-window.addEventListener('load', function () {
-    attachClickToMachLinks();
-})
