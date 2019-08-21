@@ -54,13 +54,13 @@ class MachinesController < ApplicationController
     end
 
     def destroy
-        @routine = Machine.find_by(params[:id]).weights.last.routine
+        @routine = Routine.find_by(params[:routine_id])
+        binding.pry
         @machine = Machine.find_by(params[:id])
         authorize @routine
         if !@machine.nil?
             @machine.destroy
         end 
-        redirect_to user_routine_path(current_user, @routine)
     end
 
     private

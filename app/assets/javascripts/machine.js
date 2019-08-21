@@ -98,7 +98,6 @@ function getMachines(info) {
 }
 
 function delMach(machine_id, routine_id) {
-    debugger; 
 
     fetch(BASE_URL + '/routines/' + routine_id + '/machines/' + machine_id, {
         method: 'DELETE'

@@ -63,7 +63,6 @@ class RoutinesController < ApplicationController
         if !@routine.nil? 
             @routine.destroy                
         end
-        redirect_to user_path(current_user)
     end
 
     private 
