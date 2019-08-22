@@ -107,6 +107,10 @@ function delMach(machine_id, routine_id) {
 
 }
 
+function clearform() {
+
+}
+
 class Machine {
     constructor(mach, routine_id) {
         this.id = mach.id
@@ -114,10 +118,11 @@ class Machine {
         this.repetitions = mach.repetitions
         this.sets = mach.sets
         this.routine_id = routine_id
+        this.refEdit = '/routines/' + routine_id + '/machines/' + mach.id + '/edit'
     }
 
     rendermchname() {
-        return `<a href=”#routine${this.id}” class="routine${this.id}" data-id=”${this.id}”>${this.name}</a>`
+        return `<a href=${this.refEdit} class="routine${this.id}" data-id=”${this.id}”>${this.name}</a>`
     }
 
     renderMch() {
@@ -131,4 +136,5 @@ class Machine {
     renderDel() {
         return `<a href=”#” data-id=”${this.id}” onclick="delMach(${this.id}, ${this.routine_id})" class="deletemach${this.id}">Delete Work Out</a>`
     }
+
 }

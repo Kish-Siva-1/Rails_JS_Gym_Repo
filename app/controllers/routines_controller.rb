@@ -51,7 +51,7 @@ class RoutinesController < ApplicationController
             end
             @routine.update(params.require(:routine).permit(:name))
             if @routine.valid?
-                redirect_to user_routine_path(current_user, @routine)    
+                redirect_to user_path(current_user)    
             else
                 render 'edit'
             end

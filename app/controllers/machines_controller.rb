@@ -31,9 +31,8 @@ class MachinesController < ApplicationController
     end
     
     def edit
-        @machine = Machine.find_by(params[:id])
+        @machine = Machine.find_by_id(params[:id])
         if !@machine.nil?
-            authorize @machine
             @routine = @machine.weights.last.routine
         else
             redirect_to root_path 
@@ -46,7 +45,7 @@ class MachinesController < ApplicationController
         @machine.update(machine_params)
         if @machine.valid? && !@machine.nil?
             @routine = @machine.weights.last.routine
-            redirect_to user_routine_path(current_user, @routine)    
+            redirect_to user_path(current_user)    
         else
             @routine = Routine.find_by(id: params.permit(:routine_id).values[0]) 
             render 'new'

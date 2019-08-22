@@ -4,14 +4,22 @@
 <br>
 
 <button onclick="displayCreateForm()">Add A Routine</button>
+<br>
+<br>
+<form id="createroutineform" onsubmit="createRoutine(); return false" style="display: none">
+            <label>Name:</label>
+            <input type="text" id="name">
+            <br>
+            <input type="submit" value="Submit">
+            <br>
+            <br>
+</form>
+
+<button onclick=getRoutines()>See All Routines</button>
 
 <br>
 <br>
 
-<button onclick="getRoutines()">See All Routines</button>
-
-<br>
-<br>
 
 <% if current_user.routines.empty? %>
 
