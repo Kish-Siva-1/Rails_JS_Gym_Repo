@@ -89,7 +89,7 @@ function getMachines(info) {
         else 
         
         {
-            if ( (document.querySelector(`.deletemach${info}`) === null && data.machines.length !== 0 ) || (document.querySelectorAll(`#mchname${info}`).length !== data.machines.length) ) {  
+            if ( ((document.querySelector(`#mchname${info}`) === null) && (data.machines.length !== 0) ) || (document.querySelectorAll(`#mchname${info}`).length !== data.machines.length) ) {  
                 // if (document.querySelectorAll(`#mchname${info}`).length !== data.length) {
                 //     document.querySelectorAll(`#machpara${info}`).forEach(el => el.remove())
                 // }
