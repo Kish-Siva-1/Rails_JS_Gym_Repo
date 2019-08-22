@@ -6,11 +6,11 @@
 <button onclick="displayCreateForm()">Add A Routine</button>
 <br>
 <br>
-<form id="createroutineform" onsubmit="createRoutine(); return false" style="display: none">
+<form id="createroutineform" onsubmit="createRoutine();" style="display: none">
             <label>Name:</label>
             <input type="text" id="name">
             <br>
-            <input type="submit" value="Submit">
+            <input type="submit" value="Submit" onClick="window.location.reload(true);">
             <br>
             <br>
 </form>
@@ -24,6 +24,6 @@
 <% if current_user.routines.empty? %>
 
 There are no routines, please add a new machine via the "Add Routine button".
- 
+
 <%end%>
 

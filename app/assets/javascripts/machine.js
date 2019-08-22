@@ -4,7 +4,7 @@ function displayMachCreateForm(info) {
     let cform2 = document.createElement("div");
     let html = `
         <br>
-        <form id="createworkoutform${info}" onsubmit="createMachRoutine(${info}); return false" style="display: none">
+        <form id="createworkoutform${info}" onsubmit="createMachRoutine(${info}); return false;" style="display: none">
         <label>Name:</label>
         <input type="text" id="mach_name">
         <br>
@@ -17,7 +17,7 @@ function displayMachCreateForm(info) {
         <label>Weight:</label>
         <input type="text" id="weights">
         <br>
-        <input type="submit" value="Submit">
+        <input type="submit" value="Submit" onClick=window.location.reload(true)>
         </form>
     `
     
@@ -34,8 +34,6 @@ function showMachform(routine_id) {
     else {
         formdis.style.display = "none"
     }
-
-        
 }  
 
 function createMachRoutine(info) {
@@ -92,12 +90,12 @@ function getMachines(info) {
         
         else 
         
-        {debugger;
+        {
             if ( (document.querySelector(`#mchname${info}`) === null) || (document.querySelectorAll(`#mchname${info}`).length !== data.length) ) {  
                 if (document.querySelectorAll(`#mchname${info}`).length !== data.length) {
                     document.querySelectorAll(`#machpara${info}`).forEach(el => el.remove())
                 }
-                debugger; 
+          
                 //creates html for routine show page links
                 store["rendinfo"] = data.machines.map(rand => {
                     const mch = new Machine(rand, info)
@@ -115,7 +113,7 @@ function getMachines(info) {
         }
     
             main.style.paddingLeft = '15px'
-            main.innerHTML += `<a href=”#” class="addroutine${data.id}" onclick="showMachform(${info});return false;" id="machpara${info}" >Add Work Out</a>`
+            main.innerHTML += `<a href=”#” class="addroutine${data.id}" onclick="showMachform(${info}); return false;" id="machpara${info}" >Add Work Out</a>`
             displayMachCreateForm(info)
         })
     
