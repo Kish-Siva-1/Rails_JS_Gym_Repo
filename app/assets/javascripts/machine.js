@@ -4,7 +4,7 @@ function displayMachCreateForm(info) {
     let cform2 = document.createElement("div");
     let html = `
         <br>
-        <form onsubmit="createMachRoutine(${info}); return false">
+        <form id="createworkoutform${info}" onsubmit="createMachRoutine(${info}); return false" style="display: none">
         <label>Name:</label>
         <input type="text" id="mach_name">
         <br>
@@ -25,6 +25,16 @@ function displayMachCreateForm(info) {
     machinesFormDiv.after(cform2)
 
 }
+
+function showMachform(routine_id) {
+    let formdis = document.querySelector(`#createworkoutform${routine_id}`) 
+    if (formdis.style.display === "none") {
+        formdis.style.display = ""
+    }
+    else {
+        formdis.style.display = "none"
+    }
+}  
 
 function createMachRoutine(info) {
      
@@ -66,6 +76,8 @@ function getMachines(info) {
 
     let html = `<br>`
     
+    if (document.querySelector(`#mchname${info}`) === null) {
+
     fetch(BASE_URL + '/users/' + user_id + '/routines/' + info) 
         .then( resp => resp.json() )
         .then( data => {
@@ -86,16 +98,16 @@ function getMachines(info) {
             }) 
 
             seemachine.after(main)
-            main.innerHTML = html + store["rendinfo"]       
+            main.innerHTML  = html + store["rendinfo"] 
+
         }
     
             main.style.paddingLeft = '15px'
-            main.innerHTML += `<a href=”#” class="addroutine${data.id}" onclick="displayMachCreateForm(${data.id});return false;">Add Work Out</a>`
-
-        }
-    )
+            main.innerHTML += `<a href=”#” class="addroutine${data.id}" onclick="showMachform(${info});return false;">Add Work Out</a>`
+            displayMachCreateForm(info)
+        })
     
-}
+        }}
 
 function delMach(machine_id, routine_id) {
 
@@ -104,10 +116,6 @@ function delMach(machine_id, routine_id) {
     })
 
     getMachines(routine_id)
-
-}
-
-function clearform() {
 
 }
 
@@ -122,7 +130,7 @@ class Machine {
     }
 
     rendermchname() {
-        return `<a href=${this.refEdit} class="routine${this.id}" data-id=”${this.id}”>${this.name}</a>`
+        return `<a href=${this.refEdit} id=mchname${this.routine_id} class="routine${this.id}" data-id=”${this.id}”>${this.name}</a>`
     }
 
     renderMch() {
@@ -130,7 +138,8 @@ class Machine {
         <br>Repetitions: ${this.repetitions}
         <br>Sets: ${this.sets}
         <br> ${this.renderDel()} 
-        </p>`        
+        </p>
+        ` 
     }
     
     renderDel() {

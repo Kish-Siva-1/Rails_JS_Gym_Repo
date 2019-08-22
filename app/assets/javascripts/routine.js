@@ -47,8 +47,8 @@ function delRout(info) {
 function getRoutines() {
     let user_id = document.getElementsByClassName('navbar-brand')[1].href.slice(-1)
     let seeroutines = document.querySelector('button[onclick="getRoutines()"]')
-    let main = document.createElement("div");
-
+    let main = document.createElement("div")
+    
     if (document.querySelector('#routinehref') === null){
         let store = {};
 

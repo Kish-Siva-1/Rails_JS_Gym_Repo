@@ -24,16 +24,6 @@
 <% if current_user.routines.empty? %>
 
 There are no routines, please add a new machine via the "Add Routine button".
-
-<%else%>
-
-    <% current_user.routines.each do |x| %>
-    Routine Name: <%=link_to x.name, user_routine_path(current_user, x) %><br>
-    (<%= link_to "Delete Routine", routine_path(x), :method => :delete %>)
-    <br>
-    <br>
-    
-    <% end %>
-    
+ 
 <%end%>
 
