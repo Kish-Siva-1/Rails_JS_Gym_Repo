@@ -98,8 +98,13 @@ function getMachines(info) {
             }) 
 
             seemachine.after(main)
-            main.innerHTML  = html + store["rendinfo"] 
 
+            main.innerHTML = html;
+            store["rendinfo"].forEach(function(element) {
+                main.innerHTML += element;
+            });
+
+           // main.innerHTML  = html + store["rendinfo"] 
         }
     
             main.style.paddingLeft = '15px'
