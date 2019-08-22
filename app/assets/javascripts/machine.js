@@ -34,6 +34,8 @@ function showMachform(routine_id) {
     else {
         formdis.style.display = "none"
     }
+
+        
 }  
 
 function createMachRoutine(info) {
@@ -76,7 +78,7 @@ function getMachines(info) {
 
     let html = `<br>`
     
-    if (document.querySelector(`#mchname${info}`) === null) {
+    
 
     fetch(BASE_URL + '/users/' + user_id + '/routines/' + info) 
         .then( resp => resp.json() )
@@ -90,29 +92,34 @@ function getMachines(info) {
         
         else 
         
-        {  
-            //creates html for routine show page links
-            store["rendinfo"] = data.machines.map(rand => {
-                const mch = new Machine(rand, info)
-                return mch.renderMch()  
-            }) 
+        {debugger;
+            if ( (document.querySelector(`#mchname${info}`) === null) || (document.querySelectorAll(`#mchname${info}`).length !== data.length) ) {  
+                if (document.querySelectorAll(`#mchname${info}`).length !== data.length) {
+                    document.querySelectorAll(`#machpara${info}`).forEach(el => el.remove())
+                }
+                debugger; 
+                //creates html for routine show page links
+                store["rendinfo"] = data.machines.map(rand => {
+                    const mch = new Machine(rand, info)
+                    return mch.renderMch()  
+                }) 
 
-            seemachine.after(main)
+                    seemachine.after(main)
 
-            main.innerHTML = html;
-            store["rendinfo"].forEach(function(element) {
-                main.innerHTML += element;
-            });
-
+                    main.innerHTML = html;
+                    store["rendinfo"].forEach(function(element) {
+                        main.innerHTML += element;
+                    });
+            }
            // main.innerHTML  = html + store["rendinfo"] 
         }
     
             main.style.paddingLeft = '15px'
-            main.innerHTML += `<a href=”#” class="addroutine${data.id}" onclick="showMachform(${info});return false;">Add Work Out</a>`
+            main.innerHTML += `<a href=”#” class="addroutine${data.id}" onclick="showMachform(${info});return false;" id="machpara${info}" >Add Work Out</a>`
             displayMachCreateForm(info)
         })
     
-        }}
+        }
 
 function delMach(machine_id, routine_id) {
 
@@ -139,7 +146,7 @@ class Machine {
     }
 
     renderMch() {
-        return `<p>Work Out Name: ${this.rendermchname()} 
+        return `<p id=machpara${this.routine_id} >Work Out Name: ${this.rendermchname()} 
         <br>Repetitions: ${this.repetitions}
         <br>Sets: ${this.sets}
         <br> ${this.renderDel()} 
