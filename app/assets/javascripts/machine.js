@@ -76,31 +76,29 @@ function getMachines(info) {
 
     let html = `<br>`
     
-    
-
     fetch(BASE_URL + '/users/' + user_id + '/routines/' + info) 
         .then( resp => resp.json() )
         .then( data => {
-            
-        if (data.machines.length === 0)
+            debugger; 
+        if (data.machines.length === 0 && document.querySelector(`#noworkout${info}`) === null)
            { 
                 seemachine.after(main)
-                main.innerHTML = html + '<p>There are no workouts for this routine. Please add one.</p>' 
+                main.innerHTML = html + `<p id=noworkout${info}>There are no workouts for this routine. Please add one.</p>` 
             }
         
         else 
         
         {
-            if ( (document.querySelector(`#mchname${info}`) === null) || (document.querySelectorAll(`#mchname${info}`).length !== data.length) ) {  
-                if (document.querySelectorAll(`#mchname${info}`).length !== data.length) {
-                    document.querySelectorAll(`#machpara${info}`).forEach(el => el.remove())
-                }
+            if ( (document.querySelector(`.deletemach${info}`) === null && data.machines.length !== 0 ) || (document.querySelectorAll(`#mchname${info}`).length !== data.machines.length) ) {  
+                // if (document.querySelectorAll(`#mchname${info}`).length !== data.length) {
+                //     document.querySelectorAll(`#machpara${info}`).forEach(el => el.remove())
+                // }
           
                 //creates html for routine show page links
-                store["rendinfo"] = data.machines.map(rand => {
-                    const mch = new Machine(rand, info)
-                    return mch.renderMch()  
-                }) 
+                    store["rendinfo"] = data.machines.map(rand => {
+                        const mch = new Machine(rand, info)
+                        return mch.renderMch()  
+                    }) 
 
                     seemachine.after(main)
 
@@ -108,15 +106,17 @@ function getMachines(info) {
                     store["rendinfo"].forEach(function(element) {
                         main.innerHTML += element;
                     });
-            }
+                
+                }
            // main.innerHTML  = html + store["rendinfo"] 
         }
-    
+         if (document.querySelector(`#createworkoutform${info}`)===null){   
             main.style.paddingLeft = '15px'
             main.innerHTML += `<a href=”#” class="addroutine${data.id}" onclick="showMachform(${info}); return false;" id="machpara${info}" >Add Work Out</a>`
             displayMachCreateForm(info)
+         }
         })
-    
+            
         }
 
 function delMach(machine_id, routine_id) {
