@@ -72,6 +72,7 @@ function getMachines(info) {
     let user_id = document.getElementsByClassName('navbar-brand')[1].href.slice(-1)
     let seemachine = document.querySelector(`.routine${info}`)
     let main = document.createElement("div");
+    main.className = `routinediv${info}`
     let store = {};
 
     let html = `<br>`
@@ -79,7 +80,7 @@ function getMachines(info) {
     fetch(BASE_URL + '/users/' + user_id + '/routines/' + info) 
         .then( resp => resp.json() )
         .then( data => {
-            debugger; 
+            
         if (data.machines.length === 0 && document.querySelector(`#noworkout${info}`) === null)
            { 
                 seemachine.after(main)
@@ -95,6 +96,7 @@ function getMachines(info) {
                 // }
           
                 //creates html for routine show page links
+
                     store["rendinfo"] = data.machines.map(rand => {
                         const mch = new Machine(rand, info)
                         return mch.renderMch()  
@@ -106,8 +108,14 @@ function getMachines(info) {
                     store["rendinfo"].forEach(function(element) {
                         main.innerHTML += element;
                     });
-                
+
                 }
+            
+            else {
+                //document.querySelectorAll(`.routinediv${info}`).forEach(el => el.style.display='none')
+                document.querySelector(`.routinediv${info}`).classList.toggle('hidden')
+            }
+
            // main.innerHTML  = html + store["rendinfo"] 
         }
          if (document.querySelector(`#createworkoutform${info}`)===null){   
@@ -116,7 +124,7 @@ function getMachines(info) {
             displayMachCreateForm(info)
          }
         })
-            
+ 
         }
 
 function delMach(machine_id, routine_id) {
@@ -157,3 +165,4 @@ class Machine {
     }
 
 }
+
